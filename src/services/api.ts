@@ -13,10 +13,10 @@ export const api = {
     logout: async () => { await new Promise(r => setTimeout(r, 500)); },
   },
   assistant: {
-    sendMessage: async (message: string) => {
+    sendMessage: async (message: string, responseLang: string = "en") => {
       await new Promise(r => setTimeout(r, 1500));
       return {
-        reply: `This is a placeholder response for: "${message}". In production, this would connect to an AI backend to provide legal information.`,
+        reply: `This is a placeholder response for: "${message}". In production, this would connect to an AI backend to provide legal information. (Requested language: ${responseLang})`,
       };
     },
   },
