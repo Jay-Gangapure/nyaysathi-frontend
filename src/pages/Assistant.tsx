@@ -47,14 +47,14 @@ const Assistant = () => {
   };
 
   const toggleVoice = () => {
-    if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) return;
+    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SR) return;
     if (isListening && recognitionRef.current) {
       recognitionRef.current.stop();
       setIsListening(false);
       return;
     }
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
+    const recognition = new SR();
     recognition.lang = speechLangMap[responseLang] || "en-IN";
     recognition.continuous = false;
     recognition.interimResults = false;
