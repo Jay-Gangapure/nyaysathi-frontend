@@ -3,36 +3,38 @@ import { motion } from "framer-motion";
 import { MessageSquare, BookOpen, Landmark, FileUp, MapPin, Clock, HelpCircle, ArrowRight } from "lucide-react";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Button } from "@/components/ui/button";
-
-const cards = [
-  { title: "Ask Legal Assistant", desc: "Get answers to your legal questions", icon: MessageSquare, path: "/assistant", color: "bg-primary/10 text-primary" },
-  { title: "Explore Legal Rights", desc: "Browse rights by category", icon: BookOpen, path: "/rights", color: "bg-accent/10 text-accent" },
-  { title: "Find Government Schemes", desc: "Discover schemes you qualify for", icon: Landmark, path: "/schemes", color: "bg-success/10 text-success" },
-  { title: "Upload Legal Document", desc: "Get AI summaries of documents", icon: FileUp, path: "/document", color: "bg-warning/10 text-warning" },
-  { title: "Legal Help Directory", desc: "Find legal aid near you", icon: MapPin, path: "/directory", color: "bg-destructive/10 text-destructive" },
-];
-
-const recentQueries = [
-  "What are my rights as a tenant?",
-  "How to file an RTI application?",
-  "Consumer complaint process",
-];
+import { useTranslation } from "react-i18next";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const cards = [
+    { title: t("dashboard.card1Title"), desc: t("dashboard.card1Desc"), icon: MessageSquare, path: "/assistant", color: "bg-primary/10 text-primary" },
+    { title: t("dashboard.card2Title"), desc: t("dashboard.card2Desc"), icon: BookOpen, path: "/rights", color: "bg-accent/10 text-accent" },
+    { title: t("dashboard.card3Title"), desc: t("dashboard.card3Desc"), icon: Landmark, path: "/schemes", color: "bg-success/10 text-success" },
+    { title: t("dashboard.card4Title"), desc: t("dashboard.card4Desc"), icon: FileUp, path: "/document", color: "bg-warning/10 text-warning" },
+    { title: t("dashboard.card5Title"), desc: t("dashboard.card5Desc"), icon: MapPin, path: "/directory", color: "bg-destructive/10 text-destructive" },
+  ];
+
+  const recentQueries = [
+    "What are my rights as a tenant?",
+    "How to file an RTI application?",
+    "Consumer complaint process",
+  ];
 
   return (
     <DashboardLayout>
       <div className="space-y-8">
         <div>
-          <h1 className="font-display text-2xl font-bold text-foreground">Welcome back 👋</h1>
-          <p className="mt-1 text-muted-foreground">How can NyaySathi help you today?</p>
+          <h1 className="font-display text-2xl font-bold text-foreground">{t("dashboard.welcome")}</h1>
+          <p className="mt-1 text-muted-foreground">{t("dashboard.subtitle")}</p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((card, i) => (
             <motion.div
-              key={card.title}
+              key={card.path}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08 }}
@@ -50,11 +52,10 @@ const Dashboard = () => {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          {/* Recent Queries */}
           <div className="rounded-xl border border-border bg-card p-5 shadow-card">
             <div className="mb-4 flex items-center gap-2">
               <Clock className="h-4 w-4 text-muted-foreground" />
-              <h3 className="font-semibold text-card-foreground">Recent Queries</h3>
+              <h3 className="font-semibold text-card-foreground">{t("dashboard.recentQueries")}</h3>
             </div>
             <div className="space-y-2">
               {recentQueries.map((q) => (
@@ -66,19 +67,18 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Quick Help */}
           <div className="rounded-xl border border-border bg-card p-5 shadow-card">
             <div className="mb-4 flex items-center gap-2">
               <HelpCircle className="h-4 w-4 text-muted-foreground" />
-              <h3 className="font-semibold text-card-foreground">Quick Help</h3>
+              <h3 className="font-semibold text-card-foreground">{t("dashboard.quickHelp")}</h3>
             </div>
             <div className="space-y-3">
-              <p className="text-sm text-muted-foreground">Need immediate legal assistance?</p>
+              <p className="text-sm text-muted-foreground">{t("dashboard.needHelp")}</p>
               <Button variant="outline" className="w-full justify-start gap-2" onClick={() => navigate("/directory")}>
-                <MapPin className="h-4 w-4" /> Find Legal Aid Near You
+                <MapPin className="h-4 w-4" /> {t("dashboard.findLegalAid")}
               </Button>
               <Button variant="outline" className="w-full justify-start gap-2" onClick={() => navigate("/assistant")}>
-                <MessageSquare className="h-4 w-4" /> Ask AI Legal Assistant
+                <MessageSquare className="h-4 w-4" /> {t("dashboard.askAI")}
               </Button>
             </div>
           </div>

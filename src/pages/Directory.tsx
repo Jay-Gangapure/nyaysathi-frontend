@@ -7,10 +7,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { api } from "@/services/api";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface Office { id: string; name: string; contact: string; website: string; address: string; }
 
 const Directory = () => {
+  const { t } = useTranslation();
   const [state, setState] = useState("");
   const [district, setDistrict] = useState("");
   const [results, setResults] = useState<Office[]>([]);
@@ -28,12 +30,12 @@ const Directory = () => {
 
   return (
     <DashboardLayout>
-      <h1 className="mb-6 font-display text-2xl font-bold text-foreground">Legal Help Directory</h1>
+      <h1 className="mb-6 font-display text-2xl font-bold text-foreground">{t("directory.title")}</h1>
       <div className="mb-6 flex flex-wrap items-end gap-4 rounded-xl border border-border bg-card p-5 shadow-card">
         <div className="min-w-[180px] flex-1">
-          <Label>State</Label>
+          <Label>{t("directory.state")}</Label>
           <Select value={state} onValueChange={setState}>
-            <SelectTrigger><SelectValue placeholder="Select state" /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder={t("directory.selectState")} /></SelectTrigger>
             <SelectContent>
               <SelectItem value="maharashtra">Maharashtra</SelectItem>
               <SelectItem value="delhi">Delhi</SelectItem>
@@ -43,9 +45,9 @@ const Directory = () => {
           </Select>
         </div>
         <div className="min-w-[180px] flex-1">
-          <Label>District</Label>
+          <Label>{t("directory.district")}</Label>
           <Select value={district} onValueChange={setDistrict}>
-            <SelectTrigger><SelectValue placeholder="Select district" /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder={t("directory.selectDistrict")} /></SelectTrigger>
             <SelectContent>
               <SelectItem value="central">Central</SelectItem>
               <SelectItem value="north">North</SelectItem>
@@ -55,12 +57,12 @@ const Directory = () => {
           </Select>
         </div>
         <Button onClick={handleSearch} disabled={loading || !state || !district} className="gap-2">
-          <Search className="h-4 w-4" /> Search
+          <Search className="h-4 w-4" /> {t("common.search")}
         </Button>
       </div>
 
       {loading ? (
-        <LoadingSpinner text="Searching legal aid offices..." />
+        <LoadingSpinner text={t("directory.searching")} />
       ) : results.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {results.map((o, i) => (
@@ -69,14 +71,14 @@ const Directory = () => {
               <div className="mt-3 space-y-2 text-sm text-muted-foreground">
                 <p className="flex items-center gap-2"><MapPin className="h-4 w-4" /> {o.address}</p>
                 <p className="flex items-center gap-2"><Phone className="h-4 w-4" /> {o.contact}</p>
-                <a href={o.website} className="flex items-center gap-2 text-primary hover:underline"><Globe className="h-4 w-4" /> Visit Website</a>
+                <a href={o.website} className="flex items-center gap-2 text-primary hover:underline"><Globe className="h-4 w-4" /> {t("directory.visitWebsite")}</a>
               </div>
             </motion.div>
           ))}
         </div>
       ) : searched ? (
         <div className="rounded-xl border border-border bg-card p-10 text-center shadow-card">
-          <p className="text-muted-foreground">No offices found. Try a different location.</p>
+          <p className="text-muted-foreground">{t("directory.noResults")}</p>
         </div>
       ) : null}
     </DashboardLayout>

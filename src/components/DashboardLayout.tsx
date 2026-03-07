@@ -4,25 +4,27 @@ import {
   MessageSquare, BookOpen, Landmark, FileUp, MapPin, User, LogOut, Menu, X, Scale, ChevronRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const navItems = [
-  { label: "Dashboard", path: "/dashboard", icon: Scale },
-  { label: "Legal Assistant", path: "/assistant", icon: MessageSquare },
-  { label: "Legal Rights", path: "/rights", icon: BookOpen },
-  { label: "Schemes", path: "/schemes", icon: Landmark },
-  { label: "Documents", path: "/document", icon: FileUp },
-  { label: "Directory", path: "/directory", icon: MapPin },
-  { label: "Profile", path: "/profile", icon: User },
-];
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const navItems = [
+    { label: t("nav.dashboard"), path: "/dashboard", icon: Scale },
+    { label: t("nav.assistant"), path: "/assistant", icon: MessageSquare },
+    { label: t("nav.rights"), path: "/rights", icon: BookOpen },
+    { label: t("nav.schemes"), path: "/schemes", icon: Landmark },
+    { label: t("nav.documents"), path: "/document", icon: FileUp },
+    { label: t("nav.directory"), path: "/directory", icon: MapPin },
+    { label: t("nav.profile"), path: "/profile", icon: User },
+  ];
 
   return (
     <div className="flex min-h-screen bg-background">
-      {/* Mobile overlay */}
       <AnimatePresence>
         {sidebarOpen && (
           <motion.div
@@ -35,7 +37,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         )}
       </AnimatePresence>
 
-      {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-sidebar text-sidebar-foreground transition-transform duration-300 lg:static lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -75,18 +76,18 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
           >
             <LogOut className="h-4 w-4" />
-            Logout
+            {t("common.logout")}
           </button>
         </div>
       </aside>
 
-      {/* Main */}
       <div className="flex flex-1 flex-col">
         <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b border-border bg-card/80 px-4 backdrop-blur-md lg:px-6">
           <button onClick={() => setSidebarOpen(true)} className="lg:hidden">
             <Menu className="h-5 w-5 text-foreground" />
           </button>
           <div className="ml-auto flex items-center gap-3">
+            <LanguageSwitcher compact />
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
               U
             </div>
