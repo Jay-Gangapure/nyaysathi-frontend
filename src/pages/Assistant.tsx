@@ -27,7 +27,7 @@ const Assistant = () => {
   const [responseLang, setResponseLang] = useState(i18n.language?.substring(0, 2) || "en");
   const [isListening, setIsListening] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
