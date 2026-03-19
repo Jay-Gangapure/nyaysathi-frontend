@@ -1,26 +1,197 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Lovable App</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NyaySathi – Traffic Rights Assistant</title>
+  <meta name="description" content="NyaySathi is a situation-based legal emergency assistant for traffic-police scenarios." />
+  <link rel="icon" href="/favicon.ico" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'], display: ['Plus Jakarta Sans', 'sans-serif'] },
+          colors: {
+            primary: { DEFAULT: 'hsl(221,83%,53%)', foreground: 'hsl(0,0%,100%)' },
+            accent: { DEFAULT: 'hsl(199,89%,48%)', foreground: 'hsl(0,0%,100%)' },
+            muted: { DEFAULT: 'hsl(210,40%,96%)', foreground: 'hsl(215,16%,47%)' },
+            sidebar: { DEFAULT: 'hsl(220,30%,12%)', foreground: 'hsl(210,40%,96%)', primary: 'hsl(221,83%,53%)', accent: 'hsl(220,26%,18%)', border: 'hsl(220,26%,22%)' },
+            success: 'hsl(152,69%,40%)',
+            warning: 'hsl(38,92%,50%)',
+            border: 'hsl(214,32%,91%)',
+            card: { DEFAULT: 'hsl(0,0%,100%)', foreground: 'hsl(220,30%,12%)' },
+            background: 'hsl(210,33%,98%)',
+            foreground: 'hsl(220,30%,12%)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: hsl(210,33%,98%); color: hsl(220,30%,12%); }
+    .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .page { display: none; }
+    .page.active { display: block; }
+    .gradient-primary { background: linear-gradient(135deg, hsl(221,83%,53%), hsl(199,89%,48%)); }
+    .sidebar-link.active { background: hsl(221,83%,53%); color: white; }
+    .msg-bubble { max-width: 75%; }
+    @keyframes bounce-dot { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+    .bounce-dot { animation: bounce-dot 1.2s infinite; }
+    .fade-in { animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  </style>
+</head>
+<body class="min-h-screen">
 
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Lovable App" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  <!-- ==================== LANDING PAGE ==================== -->
+  <div id="page-landing" class="page active">
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-border">
+      <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l3 9a5.002 5.002 0 01-6.001 0M18 7l-3 9m3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+          <span class="font-display text-xl font-bold">NyaySathi</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <select id="lang-switcher-landing" onchange="switchLang(this.value)" class="text-sm border border-border rounded-lg px-3 py-1.5 bg-white">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="mr">मराठी</option>
+          </select>
+          <button onclick="navigate('login')" class="text-sm font-medium text-primary hover:underline" data-i18n="common.login">Login</button>
+          <button onclick="navigate('signup')" class="text-sm font-medium bg-primary text-white px-4 py-2 rounded-lg hover:opacity-90" data-i18n="common.signup">Sign Up</button>
+        </div>
+      </div>
+    </nav>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+    <section class="gradient-primary py-20 lg:py-32">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <span class="inline-block bg-white/20 text-white text-sm font-medium px-4 py-1.5 rounded-full mb-6" data-i18n="landing.badge">🚦 Traffic Rights Assistant</span>
+        <h1 class="font-display text-4xl lg:text-6xl font-extrabold text-white leading-tight" data-i18n="landing.hero">Know Your Rights When Stopped by Traffic Police</h1>
+        <p class="mt-4 text-lg text-white/80 max-w-2xl mx-auto" data-i18n="landing.subtitle">NyaySathi gives you instant, actionable legal guidance for traffic-police encounters. No lawyer needed.</p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <button onclick="navigate('signup')" class="bg-white text-primary font-semibold px-8 py-3 rounded-xl text-lg hover:shadow-lg transition" data-i18n="landing.cta1">Get Started Free</button>
+          <button onclick="navigate('login')" class="border-2 border-white text-white font-semibold px-8 py-3 rounded-xl text-lg hover:bg-white/10 transition" data-i18n="landing.cta2">Ask Legal Assistant</button>
+        </div>
+      </div>
+    </section>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <section class="py-20 max-w-7xl mx-auto px-4">
+      <h2 class="font-display text-3xl font-bold text-center mb-12" data-i18n="landing.featuresTitle">What NyaySathi Offers</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white rounded-xl border border-border p-6 hover:shadow-lg transition">
+          <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary text-xl mb-4">🤖</div>
+          <h3 class="font-semibold text-lg mb-2" data-i18n="landing.f1Title">Traffic Rights Assistant</h3>
+          <p class="text-muted-foreground text-sm" data-i18n="landing.f1Desc">Instant guidance for any traffic police encounter.</p>
+        </div>
+        <div class="bg-white rounded-xl border border-border p-6 hover:shadow-lg transition">
+          <div class="w-12 h-12 rounded-lg bg-success/10 flex items-center justify-center text-success text-xl mb-4">🏛️</div>
+          <h3 class="font-semibold text-lg mb-2" data-i18n="landing.f2Title">Government Schemes</h3>
+          <p class="text-muted-foreground text-sm" data-i18n="landing.f2Desc">Find schemes you're eligible for.</p>
+        </div>
+        <div class="bg-white rounded-xl border border-border p-6 hover:shadow-lg transition">
+          <div class="w-12 h-12 rounded-lg bg-warning/10 flex items-center justify-center text-warning text-xl mb-4">📄</div>
+          <h3 class="font-semibold text-lg mb-2" data-i18n="landing.f3Title">Document Understanding</h3>
+          <p class="text-muted-foreground text-sm" data-i18n="landing.f3Desc">Upload legal documents for AI summaries.</p>
+        </div>
+        <div class="bg-white rounded-xl border border-border p-6 hover:shadow-lg transition">
+          <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center text-accent text-xl mb-4">📍</div>
+          <h3 class="font-semibold text-lg mb-2" data-i18n="landing.f4Title">Legal Help Directory</h3>
+          <p class="text-muted-foreground text-sm" data-i18n="landing.f4Desc">Find legal aid offices near you.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <h2 class="font-display text-3xl font-bold mb-12" data-i18n="landing.howTitle">How It Works</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="p-6"><div class="w-14 h-14 rounded-full gradient-primary text-white text-xl font-bold flex items-center justify-center mx-auto mb-4">1</div><h3 class="font-semibold text-lg mb-2" data-i18n="landing.step1Title">Describe Your Situation</h3><p class="text-muted-foreground text-sm" data-i18n="landing.step1Desc">Type or speak what happened with traffic police.</p></div>
+          <div class="p-6"><div class="w-14 h-14 rounded-full gradient-primary text-white text-xl font-bold flex items-center justify-center mx-auto mb-4">2</div><h3 class="font-semibold text-lg mb-2" data-i18n="landing.step2Title">Get Instant Guidance</h3><p class="text-muted-foreground text-sm" data-i18n="landing.step2Desc">Receive your legal rights and recommended actions.</p></div>
+          <div class="p-6"><div class="w-14 h-14 rounded-full gradient-primary text-white text-xl font-bold flex items-center justify-center mx-auto mb-4">3</div><h3 class="font-semibold text-lg mb-2" data-i18n="landing.step3Title">Take Action</h3><p class="text-muted-foreground text-sm" data-i18n="landing.step3Desc">Generate complaints, know escalation steps.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="py-8 border-t border-border">
+      <div class="max-w-7xl mx-auto px-4 text-center text-sm text-muted-foreground">
+        <p data-i18n="landing.disclaimer">⚠️ NyaySathi provides legal information only and is not a substitute for a lawyer.</p>
+        <p class="mt-2">© 2026 NyaySathi. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==================== SIGNUP PAGE ==================== -->
+  <div id="page-signup" class="page">
+    <div class="flex min-h-screen">
+      <div class="hidden lg:flex w-1/2 gradient-primary flex-col items-center justify-center p-12">
+        <svg class="w-16 h-16 text-white mb-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l3 9a5.002 5.002 0 01-6.001 0M18 7l-3 9m3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+        <h2 class="font-display text-3xl font-bold text-white" data-i18n="signup.welcomeTitle">Join NyaySathi</h2>
+        <p class="mt-3 text-white/80 text-center max-w-sm" data-i18n="signup.welcomeSub">Know your traffic rights. Stay informed. Stay safe.</p>
+      </div>
+      <div class="flex flex-1 items-center justify-center p-6 lg:p-12">
+        <div class="w-full max-w-md">
+          <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-2 lg:hidden"><svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l3 9a5.002 5.002 0 01-6.001 0M18 7l-3 9m3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg><span class="font-display text-xl font-bold">NyaySathi</span></div>
+            <select onchange="switchLang(this.value)" class="text-sm border border-border rounded-lg px-3 py-1.5 bg-white"><option value="en">EN</option><option value="hi">हि</option><option value="mr">म</option></select>
+          </div>
+          <h1 class="font-display text-2xl font-bold" data-i18n="signup.title">Create Account</h1>
+          <p class="mt-1 text-sm text-muted-foreground" data-i18n="signup.subtitle">Start using NyaySathi for free</p>
+          <form id="signup-form" class="mt-8 space-y-4" onsubmit="handleSignup(event)">
+            <div><label class="block text-sm font-medium mb-1" data-i18n="signup.name">Full Name</label><input type="text" id="signup-name" required class="w-full border border-border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Your full name"></div>
+            <div><label class="block text-sm font-medium mb-1" data-i18n="signup.email">Email</label><input type="email" id="signup-email" required class="w-full border border-border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="you@example.com"></div>
+            <div><label class="block text-sm font-medium mb-1" data-i18n="signup.password">Password</label><div class="relative"><input type="password" id="signup-password" required class="w-full border border-border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Create password"><button type="button" onclick="togglePw('signup-password')" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">👁</button></div></div>
+            <div><label class="block text-sm font-medium mb-1" data-i18n="signup.confirmPw">Confirm Password</label><input type="password" id="signup-confirm" required class="w-full border border-border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Confirm password"></div>
+            <div><label class="block text-sm font-medium mb-1" data-i18n="signup.language">Preferred Language</label><select id="signup-lang" class="w-full border border-border rounded-lg px-3 py-2.5 text-sm"><option value="en">English</option><option value="hi">Hindi</option><option value="mr">Marathi</option></select></div>
+            <button type="submit" class="w-full bg-primary text-white font-semibold py-2.5 rounded-lg hover:opacity-90 transition" data-i18n="signup.button">Create Account</button>
+          </form>
+          <p class="mt-6 text-center text-sm text-muted-foreground"><span data-i18n="signup.hasAccount">Already have an account?</span> <button onclick="navigate('login')" class="text-primary font-medium hover:underline" data-i18n="common.login">Login</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== LOGIN PAGE ==================== -->
+  <div id="page-login" class="page">
+    <div class="flex min-h-screen">
+      <div class="hidden lg:flex w-1/2 gradient-primary flex-col items-center justify-center p-12">
+        <svg class="w-16 h-16 text-white mb-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l3 9a5.002 5.002 0 01-6.001 0M18 7l-3 9m3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg>
+        <h2 class="font-display text-3xl font-bold text-white" data-i18n="login.welcomeBack">Welcome Back</h2>
+        <p class="mt-3 text-white/80 text-center max-w-sm" data-i18n="login.welcomeSub">Access your traffic rights assistant</p>
+      </div>
+      <div class="flex flex-1 items-center justify-center p-6 lg:p-12">
+        <div class="w-full max-w-md">
+          <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center gap-2 lg:hidden"><svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l3 9a5.002 5.002 0 01-6.001 0M18 7l-3 9m3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg><span class="font-display text-xl font-bold">NyaySathi</span></div>
+            <select onchange="switchLang(this.value)" class="text-sm border border-border rounded-lg px-3 py-1.5 bg-white"><option value="en">EN</option><option value="hi">हि</option><option value="mr">म</option></select>
+          </div>
+          <h1 class="font-display text-2xl font-bold" data-i18n="login.title">Sign In</h1>
+          <p class="mt-1 text-sm text-muted-foreground" data-i18n="login.subtitle">Enter your credentials to continue</p>
+          <form class="mt-8 space-y-4" onsubmit="handleLogin(event)">
+            <div><label class="block text-sm font-medium mb-1" data-i18n="login.email">Email</label><input type="email" id="login-email" required class="w-full border border-border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="you@example.com"></div>
+            <div><label class="block text-sm font-medium mb-1" data-i18n="login.password">Password</label><div class="relative"><input type="password" id="login-password" required class="w-full border border-border rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="Enter password"><button type="button" onclick="togglePw('login-password')" class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">👁</button></div></div>
+            <div class="flex items-center justify-between"><label class="flex items-center gap-2 text-sm"><input type="checkbox" class="rounded"> <span data-i18n="login.remember">Remember me</span></label><button type="button" class="text-sm text-primary hover:underline" data-i18n="login.forgot">Forgot password?</button></div>
+            <button type="submit" class="w-full bg-primary text-white font-semibold py-2.5 rounded-lg hover:opacity-90 transition" data-i18n="login.button">Sign In</button>
+          </form>
+          <p class="mt-6 text-center text-sm text-muted-foreground"><span data-i18n="login.noAccount">Don't have an account?</span> <button onclick="navigate('signup')" class="text-primary font-medium hover:underline" data-i18n="common.signup">Sign Up</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DASHBOARD LAYOUT (wraps dashboard pages) ==================== -->
+  <div id="page-dashboard" class="page"><div class="flex min-h-screen bg-background" id="dash-layout"></div></div>
+  <div id="page-assistant" class="page"><div class="flex min-h-screen bg-background" id="asst-layout"></div></div>
+  <div id="page-rights" class="page"><div class="flex min-h-screen bg-background" id="rights-layout"></div></div>
+  <div id="page-schemes" class="page"><div class="flex min-h-screen bg-background" id="schemes-layout"></div></div>
+  <div id="page-document" class="page"><div class="flex min-h-screen bg-background" id="doc-layout"></div></div>
+  <div id="page-directory" class="page"><div class="flex min-h-screen bg-background" id="dir-layout"></div></div>
+  <div id="page-profile" class="page"><div class="flex min-h-screen bg-background" id="profile-layout"></div></div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="fixed top-4 right-4 z-[100] bg-foreground text-white px-5 py-3 rounded-xl shadow-xl text-sm font-medium transition-all translate-x-[120%]" style="transition: transform .3s ease"></div>
+
+  <script src="/app.js"></script>
+</body>
 </html>
